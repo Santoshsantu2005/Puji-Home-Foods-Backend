@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   createOrder,
   getOrders,
+  getOrdersByUser,
   getOrderById,
   updateOrderStatus,
   cancelOrder,
@@ -15,6 +16,9 @@ router.post("/", createOrder);
 
 // Get All Orders
 router.get("/", getOrders);
+
+// Get Orders By User ID
+router.get("/user/:userId", getOrdersByUser);
 
 // Get Single Order
 router.get("/:id", getOrderById);

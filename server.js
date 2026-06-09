@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -20,9 +21,9 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(express.json());
-const path = require("path");
 
-app.use("/images", express.static(path.join(__dirname, "../public/images")));
+// Serve Images
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 // API Routes
 app.use("/api/admin", adminRoutes);

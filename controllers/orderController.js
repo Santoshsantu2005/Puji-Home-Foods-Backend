@@ -35,6 +35,23 @@ const getOrders = async (req, res) => {
   }
 };
 
+// Get Orders By User ID
+const getOrdersByUser = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      userId: req.params.userId,
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
 // Get Single Order By ID
 const getOrderById = async (req, res) => {
   try {
@@ -115,6 +132,7 @@ const cancelOrder = async (req, res) => {
 module.exports = {
   createOrder,
   getOrders,
+  getOrdersByUser,
   getOrderById,
   updateOrderStatus,
   cancelOrder,
