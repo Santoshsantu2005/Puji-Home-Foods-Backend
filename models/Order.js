@@ -22,14 +22,15 @@ const orderSchema = new mongoose.Schema(
     },
 
     products: [
-      {
-        productId: String,
-        name: String,
-        weight: String,
-        quantity: Number,
-        price: Number,
-      },
-    ],
+  {
+    productId: String,
+    name: String,
+    image: String,
+    weight: String,
+    quantity: Number,
+    price: Number,
+  },
+],
 
     totalAmount: {
       type: Number,
@@ -46,9 +47,17 @@ const orderSchema = new mongoose.Schema(
     },
 
     orderStatus: {
-      type: String,
-      default: "Pending",
-    },
+  type: String,
+  enum: [
+    "Pending",
+    "Confirmed",
+    "Preparing",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ],
+  default: "Pending",
+},
   },
   {
     timestamps: true,

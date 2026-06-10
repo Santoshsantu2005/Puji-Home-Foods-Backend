@@ -84,14 +84,30 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    order.orderStatus = req.body.orderStatus;
+    const allowedStatuses = [
+  "Pending",
+  "Processing",
+  "Confirmed",
+  "Preparing",
+  "Shipped",
+  "Delivered",
+  "Cancelled",
+];
 
-    await order.save();
+if (!allowedStatuses.includes(req.body.orderStatus)) {
+  return res.status(400).json({
+    message: "Invalid order status",
+  });
+}
 
-    res.status(200).json({
-      message: "Order Status Updated",
-      order,
-    });
+order.orderStatus = req.body.orderStatus;
+
+await order.save();
+
+res.status(200).json({
+  message: "Order Status Updated",
+  order,
+});
   } catch (error) {
     console.log(error);
 
