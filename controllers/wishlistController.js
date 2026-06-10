@@ -3,9 +3,20 @@ const Wishlist = require("../models/Wishlist");
 // Add Item
 const addToWishlist = async (req, res) => {
   try {
-    const item = new Wishlist(req.body);
+    const exists = await Wishlist.findOne({
+  userId: req.body.userId,
+  productId: req.body.productId,
+});
 
-    await item.save();
+if (exists) {
+  return res.status(400).json({
+    message: "Already in wishlist",
+  });
+}
+
+const item = new Wishlist(req.body);
+
+await item.save();
 
     res.status(201).json({
       message: "Added To Wishlist",
