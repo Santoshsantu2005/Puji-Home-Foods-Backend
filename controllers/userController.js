@@ -187,22 +187,26 @@ const forgotPassword = async (req, res) => {
 
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Password Reset",
-      html: `
-        <h2>Password Reset</h2>
-        <p>Click below to reset your password:</p>
-        <a href="${resetUrl}">${resetUrl}</a>
-      `,
-    });
+    transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: user.email,
+  subject: "Password Reset",
+  html: `
+    <h2>Password Reset</h2>
+    <p>Click below to reset your password:</p>
+    <a href="${resetUrl}">${resetUrl}</a>
+  `,
+})
+.then(() => {
+  console.log("Reset email sent");
+})
+.catch((err) => {
+  console.log("Email Error:", err);
+});
 
-    console.log("Email sent:", info.response);
-
-    res.status(200).json({
-      message: "Reset link sent to email",
-    });
+res.status(200).json({
+  message: "Reset link sent to email",
+});
   } catch (error) {
     console.log("EMAIL ERROR:", error);
 
