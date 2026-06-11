@@ -20,31 +20,28 @@ const createOrder = async (req, res) => {
     });
     console.log("Sending order email to:", order.email);
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: order.email,
-      subject: "Puji Home Foods - Order Confirmation",
-      html: `
-        <h2>Thank You for Your Order!</h2>
-        <p>Hello ${order.customerName},</p>
+    transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: order.email,
+  subject: "Puji Home Foods - Order Confirmation",
+  html: `
+    <h2>Thank You for Your Order!</h2>
+    <p>Hello ${order.customerName},</p>
+    <p>Your order has been placed successfully.</p>
+    <p><strong>Order Amount:</strong> ₹${order.totalAmount}</p>
+    <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+    <p><strong>Order Status:</strong> ${order.orderStatus}</p>
+    <h3>Puji Home Foods</h3>
+  `,
+})
+.then(() => {
+  console.log("Order email sent successfully");
+})
+.catch((err) => {
+  console.log("Order Email Error:", err);
+});
 
-        <p>Your order has been placed successfully.</p>
-
-        <p><strong>Order Amount:</strong> ₹${order.totalAmount}</p>
-        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
-        <p><strong>Order Status:</strong> ${order.orderStatus}</p>
-
-        <p>We will start processing your order soon.</p>
-
-        <br/>
-
-        <p>Regards,</p>
-        <h3>Puji Home Foods</h3>
-      `,
-    });
-    console.log("Order email sent successfully");
-
-    res.status(201).json({
+res.status(201).json({
   message: "Order Created",
   order,
 });
@@ -157,7 +154,7 @@ const transporter = nodemailer.createTransport({
 
 console.log("Sending status update email to:", order.email);
 
-await transporter.sendMail({
+transporter.sendMail({
   from: process.env.EMAIL_USER,
   to: order.email,
   subject: "Puji Home Foods - Order Status Update",
@@ -178,9 +175,13 @@ await transporter.sendMail({
 
     <h3>Puji Home Foods</h3>
   `,
+})
+.then(() => {
+  console.log("Status update email sent");
+})
+.catch((err) => {
+  console.log("Status Email Error:", err);
 });
-
-console.log("Status update email sent");
 
 res.status(200).json({
   message: "Order Status Updated",
