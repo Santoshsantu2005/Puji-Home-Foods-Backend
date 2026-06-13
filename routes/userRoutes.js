@@ -1,5 +1,4 @@
 const express = require("express");
-
 const router = express.Router();
 
 const {
@@ -7,20 +6,25 @@ const {
   loginUser,
   getProfile,
   updateProfile,
+  forgotPassword,
+  resetPassword,
+  getAllUsers,
 } = require("../controllers/userController");
 
 const protect = require("../middleware/authMiddleware");
+const adminOnly = require("../middleware/adminMiddleware");
 
-// Register User
+// Public Routes
 router.post("/register", registerUser);
-
-// Login User
 router.post("/login", loginUser);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:token", resetPassword);
 
-// Get User Profile
+// User Routes
 router.get("/profile", protect, getProfile);
-
-// Update User Profile
 router.put("/profile", protect, updateProfile);
+
+// Admin Routes
+router.get("/", protect, adminOnly, getAllUsers);
 
 module.exports = router;

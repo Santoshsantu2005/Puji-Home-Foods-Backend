@@ -13,6 +13,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const userRoutes = require("./routes/userRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
+const inviteCodeRoutes = require("./routes/inviteCodeRoutes");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/admin/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/invite", inviteCodeRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

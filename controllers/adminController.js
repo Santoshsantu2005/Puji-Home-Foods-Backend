@@ -29,7 +29,7 @@ const loginAdmin = async (req, res) => {
       {
         id: admin._id,
       },
-      "secretkey",
+      process.env.JWT_SECRET,
       {
         expiresIn: "7d",
       }
@@ -53,6 +53,40 @@ const loginAdmin = async (req, res) => {
   }
 };
 
+const getAllAdmins = async (req, res) => {
+  try {
+    const admins = await Admin.find()
+      .select("-password")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(admins);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+const deleteAdmin = async (req, res) => {
+  try {
+    await Admin.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      message: "Admin deleted",
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
 module.exports = {
   loginAdmin,
+  getAllAdmins,
+  deleteAdmin,
 };
