@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 // Routes
 const adminRoutes = require("./routes/adminRoutes");
 const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes"); // ✅ NEW
 const orderRoutes = require("./routes/orderRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -30,6 +31,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 // API Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes); // ✅ NEW
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
