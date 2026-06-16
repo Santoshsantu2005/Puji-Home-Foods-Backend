@@ -220,9 +220,7 @@ res.status(200).json({
   message: "Reset link sent to email",
 });
 
-res.status(200).json({
-  message: "Reset link sent to email",
-});
+
   } catch (error) {
     console.log("EMAIL ERROR:", error);
     res.status(500).json({ message: "Server Error" });
