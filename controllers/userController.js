@@ -187,29 +187,41 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  connectionTimeout: 30000,
+});
 
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-    transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Password Reset",
-      html: `
-        <h2>Password Reset</h2>
-        <p>Click below to reset your password:</p>
-        <a href="${resetUrl}">${resetUrl}</a>
-      `,
-    })
-    .then(() => { console.log("Reset email sent"); })
-    .catch((err) => { console.log("Email Error:", err); });
+await transporter.verify();
+console.log("SMTP Connected");
 
-    res.status(200).json({ message: "Reset link sent to email" });
+await transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: user.email,
+  subject: "Password Reset",
+  html: `
+    <h2>Password Reset</h2>
+    <p>Click below to reset your password:</p>
+    <a href="${resetUrl}">${resetUrl}</a>
+  `,
+});
+
+console.log("Reset email sent");
+
+res.status(200).json({
+  message: "Reset link sent to email",
+});
+
+res.status(200).json({
+  message: "Reset link sent to email",
+});
   } catch (error) {
     console.log("EMAIL ERROR:", error);
     res.status(500).json({ message: "Server Error" });
