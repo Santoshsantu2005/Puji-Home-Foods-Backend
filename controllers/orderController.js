@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
 
@@ -8,7 +9,29 @@ const createOrder = async (req, res) => {
     console.log("CREATE ORDER API CALLED");
     const order = new Order(req.body);
 
-    await order.save();
+await order.save();
+
+// Update stock automatically
+for (const item of order.products) {
+  const product = await Product.findById(item.productId);
+
+  if (!product) continue;
+
+  product.totalStock -= item.quantity;
+
+  if (product.totalStock <= 0) {
+    product.totalStock = 0;
+    product.stockStatus = "Out of Stock";
+  } else if (
+    product.totalStock <= product.lowStockThreshold
+  ) {
+    product.stockStatus = "Low Stock";
+  } else {
+    product.stockStatus = "In Stock";
+  }
+
+  await product.save();
+}
     console.log("ORDER EMAIL =", order.email);
 
     const transporter = nodemailer.createTransport({

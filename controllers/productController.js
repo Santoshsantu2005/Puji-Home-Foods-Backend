@@ -21,7 +21,7 @@ const getProducts = async (req, res) => {
 
       description: p.description || "",
 
-      stock: p.totalStock,
+      totalStock: p.totalStock,
 
       stockStatus: p.stockStatus
 
