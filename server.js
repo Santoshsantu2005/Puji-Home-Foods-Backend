@@ -8,13 +8,14 @@ const connectDB = require("./config/db");
 // Routes
 const adminRoutes = require("./routes/adminRoutes");
 const productRoutes = require("./routes/productRoutes");
-const categoryRoutes = require("./routes/categoryRoutes"); // ✅ NEW
+const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const userRoutes = require("./routes/userRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const inviteCodeRoutes = require("./routes/inviteCodeRoutes");
+const couponRoutes = require("./routes/couponRoutes"); // ✅ NEW
 
 const app = express();
 
@@ -31,13 +32,14 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 // API Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/categories", categoryRoutes); // ✅ NEW
+app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/invite", inviteCodeRoutes);
+app.use("/api/coupons", couponRoutes); // ✅ NEW
 
 // Test Route
 app.get("/", (req, res) => {
