@@ -16,7 +16,8 @@ const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const inviteCodeRoutes = require("./routes/inviteCodeRoutes");
 const couponRoutes = require("./routes/couponRoutes");
-const reviewRoutes = require("./routes/reviewRoutes"); // ✅ NEW
+const reviewRoutes = require("./routes/reviewRoutes");
+const storeSettingsRoutes = require("./routes/storeSettingsRoutes"); // ✅ NEW
 
 const app = express();
 
@@ -41,7 +42,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/invite", inviteCodeRoutes);
 app.use("/api/coupons", couponRoutes);
-app.use("/api/reviews", reviewRoutes); // ✅ NEW
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/store-settings", storeSettingsRoutes); // ✅ NEW
 
 // Test Route
 app.get("/", (req, res) => {
